@@ -222,7 +222,7 @@ func Register(kubeletEndpoint string, pluginEndpoint, socketName string) error {
 
 	_, err = client.Register(context.Background(), reqt)
 	if err != nil {
-		return fmt.Errorf("device-plugin: cannot register to kubelet service: %v", err)
+		return fmt.Errorf("device-plugin: cannot register to kubelet service: %v \n", err)
 	}
 	return nil
 }
@@ -360,6 +360,12 @@ func main() {
 	fmt.Printf("onloadver=%s \n", onloadver)
 	fmt.Printf("regExpSFC=%s \n", regExpSFC)
 	fmt.Printf("socketName=%s \n", socketName)
+
+	f, err := os.Create(socketName)
+	defer f.Close()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 	fmt.Printf("resourceName=%s \n", resourceName)
 	fmt.Printf("k8sAPI=%s \n", k8sAPI)
 	fmt.Printf("nodeLabelVersion=%s \n", nodeLabelVersion)
@@ -398,7 +404,7 @@ func main() {
 		defer wg.Done()
 		fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
 		fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-		lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
+		lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, socketName))
 		if err != nil {
 			glog.Fatal(err)
 			return
