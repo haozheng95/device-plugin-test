@@ -275,20 +275,22 @@ func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateR
 
 func MoveInterface(interfaceName string) {
 	glog.Info("move interface after reading checkpoint file")
-	_, err := ExecCommand("/usr/bin/cont-sfc-nic-move.sh", interfaceName, k8sAPI)
-	if err != nil {
-		glog.Error(err)
-	}
+	return
+	//_, err := ExecCommand("/usr/bin/cont-sfc-nic-move.sh", interfaceName, k8sAPI)
+	//if err != nil {
+	//	glog.Error(err)
+	//}
 }
 
 func AnnotateNodeWithOnloadVersion(version string) {
 	glog.Info("Annotating Node with onload version: ", version, " ", nodeLabelVersion)
-	//TODO: Read api url from config map
-	out, err := ExecCommand("/usr/bin/annotate_node.sh", k8sAPI, nodeLabelVersion, version)
-	if err != nil {
-		glog.Error(err)
-	}
-	glog.Info(out.String())
+	return
+	////TODO: Read api url from config map
+	//out, err := ExecCommand("/usr/bin/annotate_node.sh", k8sAPI, nodeLabelVersion, version)
+	//if err != nil {
+	//	glog.Error(err)
+	//}
+	//glog.Info(out.String())
 }
 
 //func AreAllOnloadDevicesAvailable() bool {
