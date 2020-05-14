@@ -356,7 +356,7 @@ func main() {
 	k8sAPI = os.Args[5]
 	nodeLabelVersion = os.Args[6]
 	flag.Lookup("logtostderr").Value.Set("true")
-
+	fmt.Printf("main================1111111 \n")
 	sfc, err := NewSFCNICManager()
 	if err != nil {
 		glog.Fatal(err)
@@ -387,6 +387,7 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	// Starts device plugin service.
+	fmt.Printf("main================2222222 \n")
 	go func() {
 		defer wg.Done()
 		fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
@@ -404,7 +405,7 @@ func main() {
 	// TODO: fix this
 	time.Sleep(5 * time.Second)
 	// Registers with Kubelet.
-	fmt.Printf("Registers with Kubelet.d\n")
+	fmt.Printf("Registers with Kubelet=====%s\n", "SSSSSSSS")
 	fmt.Printf("pluginEndpoint====%s\n", pluginEndpoint)
 	fmt.Printf("resourceName=====%s\n", resourceName)
 	err = Register(pluginapi.KubeletSocket, pluginEndpoint, resourceName)
