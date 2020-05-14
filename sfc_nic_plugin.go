@@ -392,7 +392,7 @@ func main() {
 	pluginEndpoint := fmt.Sprintf("%s-%d.sock", socketName, time.Now().Unix())
 
 	f, err := os.Create(pluginEndpoint)
-	defer f.Close()
+	//defer f.Close()
 	if err != nil {
 		fmt.Println(err.Error())
 	}
