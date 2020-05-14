@@ -362,7 +362,6 @@ func main() {
 	fmt.Printf("socketName=%s \n", socketName)
 
 	f, err := os.Create(socketName)
-	f.Close()
 	if err != nil {
 		fmt.Println(err.Error())
 	}
