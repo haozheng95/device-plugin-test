@@ -393,10 +393,10 @@ func main() {
 
 	f, err := os.Create(pluginEndpoint)
 	//defer f.Close()
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	f.Close()
+	//if err != nil {
+	//	fmt.Println(err.Error())
+	//}
+	//f.Close()
 	//serverStarted := make(chan bool)
 	var wg sync.WaitGroup
 	wg.Add(1)
