@@ -404,6 +404,9 @@ func main() {
 	// TODO: fix this
 	time.Sleep(5 * time.Second)
 	// Registers with Kubelet.
+	fmt.Printf("Registers with Kubelet.d\n")
+	fmt.Printf("pluginEndpoint====%s\n", pluginEndpoint)
+	fmt.Printf("resourceName=====%s\n", resourceName)
 	err = Register(pluginapi.KubeletSocket, pluginEndpoint, resourceName)
 	if err != nil {
 		glog.Fatal(err)
