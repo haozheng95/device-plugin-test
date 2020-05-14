@@ -361,11 +361,6 @@ func main() {
 	fmt.Printf("regExpSFC=%s \n", regExpSFC)
 	fmt.Printf("socketName=%s \n", socketName)
 
-	f, err := os.Create(socketName)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	f.Close()
 	fmt.Printf("resourceName=%s \n", resourceName)
 	fmt.Printf("k8sAPI=%s \n", k8sAPI)
 	fmt.Printf("nodeLabelVersion=%s \n", nodeLabelVersion)
@@ -395,6 +390,12 @@ func main() {
 	//AnnotateNodeWithOnloadVersion(onloadver)
 
 	pluginEndpoint := fmt.Sprintf("%s-%d.sock", socketName, time.Now().Unix())
+
+	f, err := os.Create(pluginEndpoint)
+	defer f.Close()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 	//serverStarted := make(chan bool)
 	var wg sync.WaitGroup
 	wg.Add(1)
@@ -404,7 +405,7 @@ func main() {
 		defer wg.Done()
 		fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
 		fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-		lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, socketName))
+		lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
 		if err != nil {
 			glog.Fatal(err)
 			return
