@@ -357,6 +357,12 @@ func main() {
 	nodeLabelVersion = os.Args[6]
 	flag.Lookup("logtostderr").Value.Set("true")
 	fmt.Printf("main================1111111 \n")
+	fmt.Printf("onloadver=%s \n", onloadver)
+	fmt.Printf("regExpSFC=%s \n", regExpSFC)
+	fmt.Printf("socketName=%s \n", socketName)
+	fmt.Printf("resourceName=%s \n", resourceName)
+	fmt.Printf("k8sAPI=%s \n", k8sAPI)
+	fmt.Printf("nodeLabelVersion=%s \n", nodeLabelVersion)
 	sfc, err := NewSFCNICManager()
 	if err != nil {
 		glog.Fatal(err)
