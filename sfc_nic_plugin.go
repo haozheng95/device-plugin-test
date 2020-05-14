@@ -218,6 +218,7 @@ func Register(kubeletEndpoint string, pluginEndpoint, socketName string) error {
 		Endpoint:     pluginEndpoint,
 		ResourceName: resourceName,
 	}
+	fmt.Println(reqt)
 
 	_, err = client.Register(context.Background(), reqt)
 	if err != nil {
