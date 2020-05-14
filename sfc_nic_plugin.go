@@ -199,8 +199,8 @@ func (sfc *sfcNICManager) installOnload() error {
 
 func (sfc *sfcNICManager) Init() error {
 	glog.Info("Init\n")
-	err := sfc.installOnload()
-	return err
+	//err := sfc.installOnload()
+	return nil
 }
 
 func Register(kubeletEndpoint string, pluginEndpoint, socketName string) error {
@@ -267,7 +267,7 @@ func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateR
 			//}
 			glog.Info("Allocated interface ", id)
 			//glog.Info("Allocate interface ", id, " to ", containerName)
-			go MoveInterface(id)
+			//go MoveInterface(id)
 		}
 	}
 	return resp, nil
@@ -377,7 +377,7 @@ func main() {
 	//	//	}
 	//	AnnotateNodeWithOnloadVersion("")
 	//}
-	AnnotateNodeWithOnloadVersion(onloadver)
+	//AnnotateNodeWithOnloadVersion(onloadver)
 
 	pluginEndpoint := fmt.Sprintf("%s-%d.sock", socketName, time.Now().Unix())
 	//serverStarted := make(chan bool)
