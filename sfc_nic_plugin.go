@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"path"
 	"strings"
 
 	//"strconv"
@@ -395,20 +394,20 @@ func main() {
 	wg.Add(1)
 	// Starts device plugin service.
 	fmt.Printf("main================2222222 \n")
-	go func() {
-		defer wg.Done()
-		fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
-		fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-		lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-		//lis, err := net.Listen("tcp", "127。0。0。1:80")
-		if err != nil {
-			glog.Fatal(err)
-			return
-		}
-		grpcServer := grpc.NewServer()
-		pluginapi.RegisterDevicePluginServer(grpcServer, sfc)
-		grpcServer.Serve(lis)
-	}()
+	//go func() {
+	//	defer wg.Done()
+	//	fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
+	//	fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
+	//	lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
+	//	//lis, err := net.Listen("tcp", "127。0。0。1:80")
+	//	if err != nil {
+	//		glog.Fatal(err)
+	//		return
+	//	}
+	//	grpcServer := grpc.NewServer()
+	//	pluginapi.RegisterDevicePluginServer(grpcServer, sfc)
+	//	grpcServer.Serve(lis)
+	//}()
 
 	// TODO: fix this
 	time.Sleep(5 * time.Second)
