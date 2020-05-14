@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"github.com/golang/glog"
 	"net"
-	"path"
 	"sync"
 	"time"
 
@@ -391,31 +390,24 @@ func main() {
 
 	pluginEndpoint := fmt.Sprintf("%s-%d.sock", socketName, time.Now().Unix())
 
-	//f, err := os.Create(pluginEndpoint)
-	//defer f.Close()
-	//if err != nil {
-	//	fmt.Println(err.Error())
-	//}
-	//f.Close()
-	//serverStarted := make(chan bool)
 	var wg sync.WaitGroup
 	wg.Add(1)
 	// Starts device plugin service.
 	fmt.Printf("main================2222222 \n")
-	go func() {
-		defer wg.Done()
-		fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
-		fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-		//lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-		lis, err := net.Listen("tcp", "golang.org:80")
-		if err != nil {
-			glog.Fatal(err)
-			return
-		}
-		grpcServer := grpc.NewServer()
-		pluginapi.RegisterDevicePluginServer(grpcServer, sfc)
-		grpcServer.Serve(lis)
-	}()
+	//go func() {
+	//	defer wg.Done()
+	//	fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
+	//	fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
+	//	//lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
+	//	lis, err := net.Listen("tcp", "golang.org:80")
+	//	if err != nil {
+	//		glog.Fatal(err)
+	//		return
+	//	}
+	//	grpcServer := grpc.NewServer()
+	//	pluginapi.RegisterDevicePluginServer(grpcServer, sfc)
+	//	grpcServer.Serve(lis)
+	//}()
 
 	// TODO: fix this
 	time.Sleep(5 * time.Second)
