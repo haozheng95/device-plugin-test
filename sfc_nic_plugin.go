@@ -42,12 +42,13 @@ func NewSFCNICManager() (*sfcNICManager, error) {
 	//	devices:     make(map[string]*pluginapi.Device),
 	//}, nil
 
-	return &sfcNICManager{
+	t := &sfcNICManager{
 		devices: make(map[string]*pluginapi.Device),
-	}, nil
+	}
 
-	//dev := pluginapi.Device{ID: strings.Fields(nic)[1], Health: pluginapi.Healthy}
-	//sfc.devices[strings.Fields(nic)[1]] = &dev
+	dev := pluginapi.Device{ID: "1", Health: pluginapi.Healthy}
+	t.devices["1"] = &dev
+	return t, nil
 }
 
 func ExecCommand(cmdName string, arg ...string) (bytes.Buffer, error) {
@@ -399,15 +400,15 @@ func main() {
 		defer wg.Done()
 		fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
 		fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-		//lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
+		lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
 		//lis, err := net.Listen("tcp", "127。0。0。1:80")
-		//if err != nil {
-		//	glog.Fatal(err)
-		//	return
-		//}
+		if err != nil {
+			glog.Fatal(err)
+			return
+		}
 		grpcServer := grpc.NewServer()
 		pluginapi.RegisterDevicePluginServer(grpcServer, sfc)
-		//grpcServer.Serve(lis)
+		grpcServer.Serve(lis)
 	}()
 
 	// TODO: fix this
