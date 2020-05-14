@@ -362,10 +362,11 @@ func main() {
 	fmt.Printf("socketName=%s \n", socketName)
 
 	f, err := os.Create(socketName)
-	defer f.Close()
+	f.Close()
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+	f.Close()
 	fmt.Printf("resourceName=%s \n", resourceName)
 	fmt.Printf("k8sAPI=%s \n", k8sAPI)
 	fmt.Printf("nodeLabelVersion=%s \n", nodeLabelVersion)
