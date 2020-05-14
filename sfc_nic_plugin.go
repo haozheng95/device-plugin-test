@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"path"
 	"strings"
 
 	//"strconv"
@@ -349,7 +350,7 @@ func main() {
 
 	onloadver = os.Args[1] //"201606-u1.3"
 	//onloadsrc = os.Args[2]    //"http://www.openonload.org/download/openonload-" + onloadver + ".tgz"
-	regExpSFC = os.Args[2]    //"(?m)[\r\n]+^.*SFC[6-9].*$"
+	//regExpSFC = os.Args[2]    //"(?m)[\r\n]+^.*SFC[6-9].*$"
 	socketName = os.Args[3]   //"sfcNIC"
 	resourceName = os.Args[4] //"pod.alpha.kubernetes.io/opaque-int-resource-sfcNIC"
 	k8sAPI = os.Args[5]
@@ -357,7 +358,7 @@ func main() {
 	flag.Lookup("logtostderr").Value.Set("true")
 	fmt.Printf("main================1111111 \n")
 	fmt.Printf("onloadver=%s \n", onloadver)
-	fmt.Printf("regExpSFC=%s \n", regExpSFC)
+	//fmt.Printf("regExpSFC=%s \n", regExpSFC)
 	fmt.Printf("socketName=%s \n", socketName)
 
 	fmt.Printf("resourceName=%s \n", resourceName)
@@ -394,20 +395,20 @@ func main() {
 	wg.Add(1)
 	// Starts device plugin service.
 	fmt.Printf("main================2222222 \n")
-	//go func() {
-	//	defer wg.Done()
-	//	fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
-	//	fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-	//	//lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
-	//	lis, err := net.Listen("tcp", "golang.org:80")
-	//	if err != nil {
-	//		glog.Fatal(err)
-	//		return
-	//	}
-	//	grpcServer := grpc.NewServer()
-	//	pluginapi.RegisterDevicePluginServer(grpcServer, sfc)
-	//	grpcServer.Serve(lis)
-	//}()
+	go func() {
+		defer wg.Done()
+		fmt.Printf("DveicePluginPath %s, pluginEndpoint %s\n", pluginapi.DevicePluginPath, pluginEndpoint)
+		fmt.Printf("device-plugin start server at: %s\n", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
+		lis, err := net.Listen("unix", path.Join(pluginapi.DevicePluginPath, pluginEndpoint))
+		//lis, err := net.Listen("tcp", "127。0。0。1:80")
+		if err != nil {
+			glog.Fatal(err)
+			return
+		}
+		grpcServer := grpc.NewServer()
+		pluginapi.RegisterDevicePluginServer(grpcServer, sfc)
+		grpcServer.Serve(lis)
+	}()
 
 	// TODO: fix this
 	time.Sleep(5 * time.Second)
