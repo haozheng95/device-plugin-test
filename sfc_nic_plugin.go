@@ -396,10 +396,10 @@ func main() {
 	// TODO: fix this
 	time.Sleep(35 * time.Second)
 	// Registers with Kubelet.
-	err = Register(pluginapi.KubeletSocket, pluginEndpoint, resourceName)
-	if err != nil {
-		glog.Fatal(err)
-	}
+	//err = Register(pluginapi.KubeletSocket, pluginEndpoint, resourceName)
+	//if err != nil {
+	//	glog.Fatal(err)
+	//}
 	fmt.Printf("device-plugin registered\n")
 	wg.Wait()
 }
