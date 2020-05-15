@@ -20,7 +20,8 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	pluginapi "k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1alpha"
+	//pluginapi "k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1alpha"
+	pluginapi "k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1beta1"
 )
 
 //const (
@@ -215,6 +216,8 @@ func Register(kubeletEndpoint string, pluginEndpoint, socketName string) error {
 		ResourceName: resourceName,
 	}
 
+	fmt.Printf("reqt ==== %s", reqt)
+
 	_, err = client.Register(context.Background(), reqt)
 	if err != nil {
 		return fmt.Errorf("device-plugin: cannot register to kubelet service: %v", err)
@@ -336,6 +339,17 @@ func (sfc *sfcNICManager) UnInit() {
 	return
 }
 
+func (sfc *sfcNICManager) PreStartContainer(context.Context, *pluginapi.PreStartContainerRequest) (*pluginapi.PreStartContainerResponse, error) {
+	fmt.Printf("PreStartContainer    ----------- 343")
+	tmp := new(pluginapi.PreStartContainerResponse)
+	return tmp, nil
+}
+
+func (sfc *sfcNICManager) GetDevicePluginOptions(context.Context, *pluginapi.Empty) (*pluginapi.DevicePluginOptions, error) {
+	fmt.Printf("GetDevicePluginOptions    ----------- 349")
+	return &pluginapi.DevicePluginOptions{}, nil
+}
+
 func main() {
 	flag.Parse()
 	fmt.Printf("Starting main \n")
@@ -396,10 +410,10 @@ func main() {
 	// TODO: fix this
 	time.Sleep(35 * time.Second)
 	// Registers with Kubelet.
-	//err = Register(pluginapi.KubeletSocket, pluginEndpoint, resourceName)
-	//if err != nil {
-	//	glog.Fatal(err)
-	//}
+	err = Register(pluginapi.KubeletSocket, pluginEndpoint, resourceName)
+	if err != nil {
+		glog.Fatal(err)
+	}
 	fmt.Printf("device-plugin registered\n")
 	wg.Wait()
 }
