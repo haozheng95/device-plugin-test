@@ -58,7 +58,7 @@ func ExecCommand(cmdName string, arg ...string) (bytes.Buffer, error) {
 		fmt.Println("CMD--" + cmdName + ": " + fmt.Sprint(err) + ": " + stderr.String())
 	}
 
-	return out, err
+	return out, nil
 }
 
 func (sfc *sfcNICManager) discoverSolarflareResources() bool {
