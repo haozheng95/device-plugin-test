@@ -394,7 +394,7 @@ func main() {
 	}()
 
 	// TODO: fix this
-	time.Sleep(5 * time.Second)
+	time.Sleep(35 * time.Second)
 	// Registers with Kubelet.
 	err = Register(pluginapi.KubeletSocket, pluginEndpoint, resourceName)
 	if err != nil {
