@@ -417,7 +417,7 @@ func main() {
 	fmt.Printf("Registers with Kubelet=====%s\n", "SSSSSSSS")
 	fmt.Printf("pluginEndpoint====%s\n", pluginEndpoint)
 	fmt.Printf("resourceName=====%s\n", resourceName)
-	err = Register(pluginapi.KubeletSocket, pluginEndpoint, resourceName)
+	err = Register(pluginapi.KubeletSocket, path.Join(pluginapi.DevicePluginPath, pluginEndpoint), resourceName)
 	if err != nil {
 		glog.Fatal(err)
 	}
