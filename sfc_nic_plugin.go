@@ -360,7 +360,7 @@ func main() {
 		// clean up any exisiting device plugin software
 		//sfc.UnInit()
 		glog.Errorf("No SolarFlare NICs are present\n")
-		os.Exit(1)
+		//os.Exit(1)
 	}
 	if !sfc.isOnloadInstallHealthy() {
 		//err = sfc.Init()
