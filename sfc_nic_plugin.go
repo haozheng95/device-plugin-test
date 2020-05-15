@@ -254,20 +254,20 @@ func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateR
 	glog.Info("Allocate")
 	resp := new(pluginapi.AllocateResponse)
 	//	containerName := strings.Join([]string{"k8s", "POD", rqt.PodName, rqt.Namespace}, "_")
-	for _, id := range rqt.DevicesIDs {
-		if _, ok := sfc.devices[id]; ok {
-			for _, d := range sfc.deviceFiles {
-				resp.Devices = append(resp.Devices, &pluginapi.DeviceSpec{
-					HostPath:      d,
-					ContainerPath: d,
-					Permissions:   "mrw",
-				})
-			}
-			glog.Info("Allocated interface ", id)
-			//glog.Info("Allocate interface ", id, " to ", containerName)
-			go MoveInterface(id)
-		}
-	}
+	//for _, id := range rqt.DevicesIDs {
+	//	if _, ok := sfc.devices[id]; ok {
+	//		for _, d := range sfc.deviceFiles {
+	//			resp.Devices = append(resp.Devices, &pluginapi.DeviceSpec{
+	//				HostPath:      d,
+	//				ContainerPath: d,
+	//				Permissions:   "mrw",
+	//			})
+	//		}
+	//		glog.Info("Allocated interface ", id)
+	//		//glog.Info("Allocate interface ", id, " to ", containerName)
+	//		go MoveInterface(id)
+	//	}
+	//}
 	return resp, nil
 }
 
