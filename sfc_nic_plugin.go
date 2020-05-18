@@ -89,9 +89,10 @@ func (sfc *sfcNICManager) discoverSolarflareResources() bool {
 	//	found = true
 	//}
 
-	nic := "discover-test  001"
-	dev := pluginapi.Device{ID: strings.Fields(nic)[1], Health: pluginapi.Healthy}
-	sfc.devices[strings.Fields(nic)[1]] = &dev
+	sfc.devices["001"] = &pluginapi.Device{ID: "001", Health: pluginapi.Healthy}
+	sfc.devices["002"] = &pluginapi.Device{ID: "002", Health: pluginapi.Healthy}
+	sfc.devices["003"] = &pluginapi.Device{ID: "003", Health: pluginapi.Healthy}
+	sfc.devices["004"] = &pluginapi.Device{ID: "004", Health: pluginapi.Healthy}
 	found = true
 
 	fmt.Printf("Devices: %v \n", sfc.devices)
@@ -347,13 +348,13 @@ func (sfc *sfcNICManager) UnInit() {
 }
 
 func (sfc *sfcNICManager) PreStartContainer(context.Context, *pluginapi.PreStartContainerRequest) (*pluginapi.PreStartContainerResponse, error) {
-	fmt.Printf("PreStartContainer    ----------- 343")
+	fmt.Printf("PreStartContainer    ----------- 343 \n\n\n\n")
 	tmp := new(pluginapi.PreStartContainerResponse)
 	return tmp, nil
 }
 
 func (sfc *sfcNICManager) GetDevicePluginOptions(context.Context, *pluginapi.Empty) (*pluginapi.DevicePluginOptions, error) {
-	fmt.Printf("GetDevicePluginOptions    ----------- 349")
+	fmt.Printf("GetDevicePluginOptions    ----------- 349 \n\n\n\n")
 	return &pluginapi.DevicePluginOptions{}, nil
 }
 
