@@ -261,7 +261,7 @@ func (sfc *sfcNICManager) ListAndWatch(emtpy *pluginapi.Empty, stream pluginapi.
 func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateRequest) (*pluginapi.AllocateResponse, error) {
 	glog.Info("Allocate")
 	resp := new(pluginapi.AllocateResponse)
-	//	containerName := strings.Join([]string{"k8s", "POD", rqt.PodName, rqt.Namespace}, "_")
+	//containerName := strings.Join([]string{"k8s", "POD", rqt.PodName, rqt.Namespace}, "_")
 	//for _, id := range rqt.DevicesIDs {
 	//	if _, ok := sfc.devices[id]; ok {
 	//		for _, d := range sfc.deviceFiles {
