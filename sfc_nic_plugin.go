@@ -262,6 +262,25 @@ func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateR
 	glog.Info("Allocate")
 	resp := new(pluginapi.AllocateResponse)
 	//containerName := strings.Join([]string{"k8s", "POD", rqt.PodName, rqt.Namespace}, "_")
+
+	//	type ContainerAllocateResponse struct {
+	//	// List of environment variable to be set in the container to access one of more devices.
+	//	Envs map[string]string `protobuf:"bytes,1,rep,name=envs" json:"envs,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	//	// Mounts for the container.
+	//	Mounts []*Mount `protobuf:"bytes,2,rep,name=mounts" json:"mounts,omitempty"`
+	//	// Devices for the container.
+	//	Devices []*DeviceSpec `protobuf:"bytes,3,rep,name=devices" json:"devices,omitempty"`
+	//	// Container annotations to pass to the container runtime
+	//	Annotations map[string]string `protobuf:"bytes,4,rep,name=annotations" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	//}
+
+	cresp := new(pluginapi.ContainerAllocateResponse)
+	cresp.Envs["vmware"] = "vmware---test"
+	//containerRequests := rqt.GetContainerRequests()
+	deviceSpec := pluginapi.DeviceSpec{ContainerPath: "/dev", HostPath: "/dev", Permissions: "mrw"}
+	cresp.Devices = append(cresp.Devices, &deviceSpec)
+	glog.Info("Allocate-------------=n=n=\n\n over")
+
 	//for _, id := range rqt.DevicesIDs {
 	//	if _, ok := sfc.devices[id]; ok {
 	//		for _, d := range sfc.deviceFiles {
@@ -276,6 +295,7 @@ func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateR
 	//		go MoveInterface(id)
 	//	}
 	//}
+	resp.ContainerResponses = append(resp.ContainerResponses, cresp)
 	return resp, nil
 }
 
