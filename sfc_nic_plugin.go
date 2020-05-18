@@ -229,23 +229,24 @@ func Register(kubeletEndpoint string, pluginEndpoint, socketName string) error {
 func (sfc *sfcNICManager) ListAndWatch(emtpy *pluginapi.Empty, stream pluginapi.DevicePlugin_ListAndWatchServer) error {
 	glog.Info("device-plugin: ListAndWatch start\n")
 	for {
-		sfc.discoverSolarflareResources()
-		if !sfc.isOnloadInstallHealthy() {
-			glog.Errorf("Error with onload installation. Marking devices unhealthy.")
-			for _, device := range sfc.devices {
-				device.Health = pluginapi.Unhealthy
-			}
-		}
-		resp := new(pluginapi.ListAndWatchResponse)
-		for _, dev := range sfc.devices {
-			glog.Info("dev ", dev)
-			resp.Devices = append(resp.Devices, dev)
-		}
-		glog.Info("resp.Devices ", resp.Devices)
-		if err := stream.Send(resp); err != nil {
-			glog.Errorf("Failed to send response to kubelet: %v\n", err)
-		}
-		time.Sleep(5 * time.Second)
+		glog.Info("device-plugin: ListAndWatch Pending.............\n")
+		//sfc.discoverSolarflareResources()
+		//if !sfc.isOnloadInstallHealthy() {
+		//	glog.Errorf("Error with onload installation. Marking devices unhealthy.")
+		//	for _, device := range sfc.devices {
+		//		device.Health = pluginapi.Unhealthy
+		//	}
+		//}
+		//resp := new(pluginapi.ListAndWatchResponse)
+		//for _, dev := range sfc.devices {
+		//	glog.Info("dev ", dev)
+		//	resp.Devices = append(resp.Devices, dev)
+		//}
+		//glog.Info("resp.Devices ", resp.Devices)
+		//if err := stream.Send(resp); err != nil {
+		//	glog.Errorf("Failed to send response to kubelet: %v\n", err)
+		//}
+		time.Sleep(50 * time.Second)
 	}
 	return nil
 }
