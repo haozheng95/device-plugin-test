@@ -275,7 +275,9 @@ func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateR
 	//}
 
 	cresp := new(pluginapi.ContainerAllocateResponse)
-	cresp.Envs["vmware"] = "vmware---test"
+	t := make(map[string]string)
+	t["vmware"] = "vmware---test"
+	cresp.Envs = t
 	//containerRequests := rqt.GetContainerRequests()
 	deviceSpec := pluginapi.DeviceSpec{ContainerPath: "/dev", HostPath: "/dev", Permissions: "mrw"}
 	cresp.Devices = append(cresp.Devices, &deviceSpec)
