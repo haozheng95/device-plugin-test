@@ -12,7 +12,6 @@ import (
 	"io/ioutil"
 	"net"
 	"path"
-	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -66,30 +65,37 @@ func (sfc *sfcNICManager) discoverSolarflareResources() bool {
 	found := false
 	sfc.devices = make(map[string]*pluginapi.Device)
 	glog.Info("discoverSolarflareResources")
-	out, err := ExecCommand("lshw", "-short", "-class", "network")
-	if err != nil {
-		glog.Errorf("Error while discovering: %v", err)
-		return found
-	}
-	re := regexp.MustCompile(regExpSFC)
-	sfcNICs := re.FindAllString(out.String(), -1)
-	for _, nic := range sfcNICs {
-		//nameIf := strings.Fields(nic)[1]
-		fmt.Printf("logical name: %v \n", strings.Fields(nic)[1])
-		//if nameIf == "network" {
-		// When running inside non net=host container, 'devices' column is empty. 'class'
-		// value, 'network', is being parsed as 'Device' incorrectly. Skip it.
-		// H/W path             Device  Class          Description
-		// =======================================================
-		// /0/100/3/0.1                 network        Ethernet Controller XL710 for 40GbE QSFP+
-		///0/3/0                        network        SFC9020 [Solarstorm]
-		//	continue
-		//}
-		dev := pluginapi.Device{ID: strings.Fields(nic)[1], Health: pluginapi.Healthy}
-		sfc.devices[strings.Fields(nic)[1]] = &dev
-		found = true
-	}
+	//out, err := ExecCommand("lshw", "-short", "-class", "network")
+	//if err != nil {
+	//	glog.Errorf("Error while discovering: %v", err)
+	//	return found
+	//}
+	//re := regexp.MustCompile(regExpSFC)
+	//sfcNICs := re.FindAllString(out.String(), -1)
+	//for _, nic := range sfcNICs {
+	//	//nameIf := strings.Fields(nic)[1]
+	//	fmt.Printf("logical name: %v \n", strings.Fields(nic)[1])
+	//	//if nameIf == "network" {
+	//	// When running inside non net=host container, 'devices' column is empty. 'class'
+	//	// value, 'network', is being parsed as 'Device' incorrectly. Skip it.
+	//	// H/W path             Device  Class          Description
+	//	// =======================================================
+	//	// /0/100/3/0.1                 network        Ethernet Controller XL710 for 40GbE QSFP+
+	//	///0/3/0                        network        SFC9020 [Solarstorm]
+	//	//	continue
+	//	//}
+	//	dev := pluginapi.Device{ID: strings.Fields(nic)[1], Health: pluginapi.Healthy}
+	//	sfc.devices[strings.Fields(nic)[1]] = &dev
+	//	found = true
+	//}
+
+	nic := "discover-test  001"
+	dev := pluginapi.Device{ID: strings.Fields(nic)[1], Health: pluginapi.Healthy}
+	sfc.devices[strings.Fields(nic)[1]] = &dev
+	found = true
+
 	fmt.Printf("Devices: %v \n", sfc.devices)
+	glog.Info("discoverSolarflareResources over")
 
 	return found
 }
@@ -230,22 +236,22 @@ func (sfc *sfcNICManager) ListAndWatch(emtpy *pluginapi.Empty, stream pluginapi.
 	glog.Info("device-plugin: ListAndWatch start\n")
 	for {
 		glog.Info("device-plugin: ListAndWatch Pending.............\n")
-		//sfc.discoverSolarflareResources()
+		sfc.discoverSolarflareResources()
 		//if !sfc.isOnloadInstallHealthy() {
 		//	glog.Errorf("Error with onload installation. Marking devices unhealthy.")
 		//	for _, device := range sfc.devices {
 		//		device.Health = pluginapi.Unhealthy
 		//	}
 		//}
-		//resp := new(pluginapi.ListAndWatchResponse)
-		//for _, dev := range sfc.devices {
-		//	glog.Info("dev ", dev)
-		//	resp.Devices = append(resp.Devices, dev)
-		//}
-		//glog.Info("resp.Devices ", resp.Devices)
-		//if err := stream.Send(resp); err != nil {
-		//	glog.Errorf("Failed to send response to kubelet: %v\n", err)
-		//}
+		resp := new(pluginapi.ListAndWatchResponse)
+		for _, dev := range sfc.devices {
+			glog.Info("dev ", dev)
+			resp.Devices = append(resp.Devices, dev)
+		}
+		glog.Info("resp.Devices ", resp.Devices)
+		if err := stream.Send(resp); err != nil {
+			glog.Errorf("Failed to send response to kubelet: %v\n", err)
+		}
 		time.Sleep(50 * time.Second)
 	}
 	return nil
