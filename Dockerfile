@@ -23,4 +23,5 @@ RUN go build -o sfc-nic-plugin
 RUN cp sfc-nic-plugin /usr/bin/sfc-nic-plugin \
 && cp *.sh /usr/bin
 
-ENTRYPOINT ["/usr/sbin/init"]
+#ENTRYPOINT ["/usr/sbin/init"]
+ENTRYPOINT ["A=abc sh"]
