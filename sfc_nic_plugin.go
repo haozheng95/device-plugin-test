@@ -279,9 +279,9 @@ func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateR
 	t["vmware"] = "vmware---test"
 	cresp.Envs = t
 	//containerRequests := rqt.GetContainerRequests()
-	deviceSpec := pluginapi.DeviceSpec{ContainerPath: "/dev", HostPath: "/dev", Permissions: "mrw"}
+	//deviceSpec := pluginapi.DeviceSpec{ContainerPath: "/dev", HostPath: "/dev", Permissions: "mrw"}
+	deviceSpec := pluginapi.DeviceSpec{Permissions: "mrw"}
 	cresp.Devices = append(cresp.Devices, &deviceSpec)
-	glog.Info("Allocate-------------=n=n=\n\n over")
 
 	//for _, id := range rqt.DevicesIDs {
 	//	if _, ok := sfc.devices[id]; ok {
@@ -298,6 +298,7 @@ func (sfc *sfcNICManager) Allocate(ctx context.Context, rqt *pluginapi.AllocateR
 	//	}
 	//}
 	resp.ContainerResponses = append(resp.ContainerResponses, cresp)
+	glog.Info("Allocate-------------=n=n=\n\n over")
 	return resp, nil
 }
 
